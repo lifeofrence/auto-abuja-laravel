@@ -78,7 +78,7 @@
                                 <div class="card h-100 border-0 shadow-sm hover-lift"
                                     style="border-radius: 12px; overflow: hidden;">
                                     <div class="position-relative">
-                                        <img src="{{ asset($product->image ?: 'img/default-product.jpg') }}" class="card-img-top"
+                                        <img src="{{ $product->image_url }}" class="card-img-top"
                                             style="height: 160px; object-fit: cover;" alt="{{ $product->name }}">
                                         <div class="position-absolute bottom-0 end-0 p-2">
                                             <span
@@ -115,9 +115,8 @@
                                 <div class="card h-100 border-0 shadow-sm hover-lift"
                                     style="border-radius: 12px; overflow: hidden;">
                                     <div class="position-relative">
-                                        <img src="{{ asset($business->cover_image ?: 'img/default-business.jpg') }}"
-                                            class="card-img-top" style="height: 180px; object-fit: cover;"
-                                            alt="{{ $business->business_name }}">
+                                        <img src="{{ $business->image_url }}" class="card-img-top"
+                                            style="height: 180px; object-fit: cover;" alt="{{ $business->business_name }}">
                                         @if($business->is_featured)
                                             <div class="position-absolute top-0 end-0 p-2">
                                                 <span class="badge bg-warning text-dark shadow-sm"><i
@@ -171,7 +170,7 @@
                     <div class="col-lg-3 col-md-6 wow fadeInUp product-item" data-wow-delay="{{ 0.1 + ($index * 0.2) }}s">
                         <div class="card h-100 border-0 shadow">
                             <div class="position-relative">
-                                <img src="{{ asset($product->image ?: 'img/default-product.jpg') }}" class="card-img-top"
+                                <img src="{{ $product->image_url }}" class="card-img-top"
                                     style="height: 200px; object-fit: cover;" alt="{{ $product->name }}">
                             </div>
                             <div class="card-body text-center">
@@ -282,7 +281,7 @@
                     @endforeach
                 @else
                     <div class="carousel-item active">
-                        <img class="w-100" src="{{ asset('img/carousel-bg-1.jpg') }}" alt="Image">
+                        <img class="w-100" src="{{ asset('public/img/carousel-bg-1.jpg') }}" alt="Image">
                         <div class="carousel-caption d-flex align-items-center">
                             <div class="container">
                                 <div class="row justify-content-start">

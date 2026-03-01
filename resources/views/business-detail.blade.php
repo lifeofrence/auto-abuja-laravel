@@ -73,7 +73,7 @@
 
     <div class="container mb-5">
         <div class="text-center">
-            <img src="{{ asset($business->logo ?: 'img/default-logo.png') }}" class="business-logo" alt="Logo">
+            <img src="{{ $business->logo_url }}" class="business-logo" alt="Logo">
         </div>
     </div>
 
@@ -122,9 +122,8 @@
                             @forelse($products as $product)
                                 <div class="col-md-6">
                                     <div class="card h-100 border shadow-sm">
-                                        <img src="{{ asset($product->image ?: 'img/default-product.jpg') }}"
-                                            class="card-img-top" style="height: 200px; object-fit: cover;"
-                                            alt="{{ $product->name }}">
+                                        <img src="{{ $product->image_url }}" class="card-img-top"
+                                            style="height: 200px; object-fit: cover;" alt="{{ $product->name }}">
                                         <div class="card-body">
                                             <h5 class="fw-bold">
                                                 {{ $product->name }}

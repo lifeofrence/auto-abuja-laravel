@@ -8,6 +8,9 @@ class BusinessImage extends Model
 {
     protected $guarded = [];
 
-    public function business() { return $this->belongsTo(Business::class); }
+    public function business()
+    {
+        return $this->belongsTo(Business::class);
+    }
     //
 }

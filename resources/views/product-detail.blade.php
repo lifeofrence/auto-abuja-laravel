@@ -69,15 +69,14 @@
                 <!-- Product Images -->
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="product-image-container mb-3">
-                        <img id="mainImage" src="{{ asset($product->image ?: 'img/default-product.jpg') }}"
-                            class="main-image" alt="{{ $product->name }}">
+                        <img id="mainImage" src="{{ $product->image_url }}" class="main-image" alt="{{ $product->name }}">
                     </div>
                     @if(count($product_images) > 0)
                         <div class="d-flex overflow-auto pb-2">
-                            <img src="{{ asset($product->image ?: 'img/default-product.jpg') }}" class="thumb-image active"
+                            <img src="{{ $product->image_url }}" class="thumb-image active"
                                 onclick="changeImage(this.src, this)">
                             @foreach($product_images as $img)
-                                <img src="{{ asset($img->image_path) }}" class="thumb-image" onclick="changeImage(this.src, this)">
+                                <img src="{{ $img->image_url }}" class="thumb-image" onclick="changeImage(this.src, this)">
                             @endforeach
                         </div>
                     @endif
@@ -154,8 +153,8 @@
                         @foreach($relatedProducts as $rp)
                             <div class="col-lg-3 col-md-6">
                                 <div class="card h-100 border-0 shadow-sm overflow-hidden">
-                                    <img src="{{ asset($rp->image ?: 'img/default-product.jpg') }}" class="card-img-top"
-                                        style="height: 180px; object-fit: cover;" alt="{{ $rp->name }}">
+                                    <img src="{{ $rp->image_url }}" class="card-img-top" style="height: 180px; object-fit: cover;"
+                                        alt="{{ $rp->name }}">
                                     <div class="card-body">
                                         <h6 class="fw-bold mb-2">
                                             {{ $rp->name }}
@@ -163,7 +162,8 @@
                                         <p class="text-primary fw-bold mb-3">₦
                                             {{ number_format($rp->price, 2) }}
                                         </p>
-                                        <a href="{{ url('/product/' . $rp->slug) }}" class="btn btn-sm btn-outline-primary w-100">View
+                                        <a href="{{ url('/product/' . $rp->slug) }}"
+                                            class="btn btn-sm btn-outline-primary w-100">View
                                             Product</a>
                                     </div>
                                 </div>
