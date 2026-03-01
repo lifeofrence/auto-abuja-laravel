@@ -40,4 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
+
+
 require __DIR__ . '/auth.php';
