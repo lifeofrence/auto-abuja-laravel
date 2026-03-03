@@ -4,7 +4,7 @@
 
     <!-- Page Header Start -->
     <div class="container-fluid page-header mb-5 p-0"
-        style="background-image: url('{{ asset('img/carousel-bg-2.jpg') }}');">
+        style="background-image: url('{{ asset('public/img/carousel-bg-2.jpg') }}');">
         <div class="container-fluid page-header-inner py-5">
             <div class="container text-center">
                 <h1 class="display-3 text-white mb-3 animated slideInDown">Products</h1>
@@ -61,7 +61,7 @@
                         <div class="card h-100 border-0 shadow">
                             <div class="position-relative">
                                 <!-- In a real app we'd load the product image; fallback to placeholder here -->
-                                <img src="{{ asset('img/bg-intro.jpg') }}" class="card-img-top" alt="{{ $product->name }}"
+                                <img src="{{ asset('public/img/bg-intro.jpg') }}" class="card-img-top" alt="{{ $product->name }}"
                                     style="height:200px; object-fit:cover;">
                                 <div class="position-absolute top-0 end-0 p-2">
                                     <button class="btn btn-sm btn-light rounded-circle wishlist-btn"

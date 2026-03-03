@@ -4,7 +4,7 @@
 
     <style>
         .business-header {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{{ asset($business->cover_image ?: "img/carousel-bg-1.jpg") }}');
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{{ asset($business->cover_image ?: "public/img/carousel-bg-1.jpg") }}');
             background-position: center;
             background-size: cover;
             padding: 100px 0;
@@ -110,7 +110,7 @@
                         </p>
                         <!-- Map placeholder -->
                         <div class="bg-light rounded p-4 text-center"
-                            style="height: 300px; display: flex; align-items: center; justify-content: center; background-image: url('{{ asset("img/map-placeholder.jpg") }}'); background-size: cover;">
+                            style="height: 300px; display: flex; align-items: center; justify-content: center; background-image: url('{{ asset("public/img/map-placeholder.jpg") }}'); background-size: cover;">
                             <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($business->address) }}"
                                 target="_blank" class="btn btn-dark">Open in Google Maps</a>
                         </div>
