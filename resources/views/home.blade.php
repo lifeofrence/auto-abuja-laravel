@@ -21,7 +21,8 @@
 
                             <!-- Category -->
                             <div class="col-md-3">
-                                <select name="category" class="form-select border-0 py-3" style="font-size: 16px;">
+                                <select name="category" id="categorySelect" class="form-select border-0 py-3"
+                                    style="font-size: 16px;">
                                     <option value="">All Categories</option>
                                     @foreach($searchCategories as $cat)
                                         <option value="{{ $cat->slug }}" {{ $categorySlug === $cat->slug ? 'selected' : '' }}>
@@ -33,7 +34,8 @@
 
                             <!-- Subcategory -->
                             <div class="col-md-3">
-                                <select name="subcategory" class="form-select border-0 py-3" style="font-size: 16px;">
+                                <select name="subcategory" id="subcategorySelect" class="form-select border-0 py-3"
+                                    style="font-size: 16px;">
                                     <option value="">All Sub-types</option>
                                     @foreach($searchSubcategories as $sc)
                                         <option value="{{ $sc->slug }}" {{ (!empty($subcategorySlug) && $subcategorySlug === $sc->slug) ? 'selected' : '' }}>
@@ -389,4 +391,41 @@
         </div>
     </div>
     <!-- Testimonials End -->
+    @push('scripts')
+        <script>
+            (function () {
+                const categorySelect = document.getElementById('categorySelect');
+                const subcategorySelect = document.getElementById('subcategorySelect');
+                const selectedSubcatSlug = '{{ $subcategorySlug ?? '' }}';
+
+                function loadSubcategories(categorySlug, preselect) {
+                    subcategorySelect.innerHTML = '<option value="">All Sub-types</option>';
+                    if (!categorySlug) return;
+
+                    fetch('/api/subcategories?category=' + encodeURIComponent(categorySlug))
+                        .then(function (res) { return res.json(); })
+                        .then(function (subcategories) {
+                            subcategories.forEach(function (sc) {
+                                var opt = document.createElement('option');
+                                opt.value = sc.slug;
+                                opt.textContent = sc.name;
+                                if (preselect && sc.slug === preselect) {
+                                    opt.selected = true;
+                                }
+                                subcategorySelect.appendChild(opt);
+                            });
+                        })
+                        .catch(function (err) { console.error('Subcategory load failed:', err); });
+                }
+
+                categorySelect.addEventListener('change', function () {
+                    loadSubcategories(this.value, null);
+                });
+
+                if (categorySelect.value) {
+                    loadSubcategories(categorySelect.value, selectedSubcatSlug);
+                }
+            })();
+        </script>
+    @endpush
 @endsection

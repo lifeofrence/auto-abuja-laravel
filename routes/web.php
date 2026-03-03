@@ -40,6 +40,19 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/api/subcategories', function (\Illuminate\Http\Request $request) {
+    $categorySlug = $request->query('category');
+    if (!$categorySlug) {
+        return response()->json([]);
+    }
+    $category = App\Models\Category::where('slug', $categorySlug)->first();
+    if (!$category) {
+        return response()->json([]);
+    }
+    $subcategories = $category->subcategories()->select('id', 'name', 'slug')->get();
+    return response()->json($subcategories);
+})->name('api.subcategories');
+
 Route::get('/linkstorage', function () {
     Artisan::call('storage:link');
 });
