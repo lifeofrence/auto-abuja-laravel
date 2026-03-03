@@ -4,7 +4,7 @@
 
     <!-- Page Header Start -->
     <div class="container-fluid page-header mb-5 p-0"
-        style="background-image: url('{{ asset("img/carousel-bg-1.jpg") }}');">
+        style="background-image: url('{{ asset("public/img/carousel-bg-1.jpg") }}');">
         <div class="container-fluid page-header-inner py-5">
             <div class="container text-center">
                 <h1 class="display-3 text-white mb-3 animated slideInDown">About Us</h1>
@@ -43,8 +43,14 @@
                                 </div>
                                 <div class="ps-3">
                                     <h6>Our Vision</h6>
-                                    <span>To empower every vehicle owner with the knowledge, tools, and support they
-                                        need to maintain their cars with confidence and ease.</span>
+                                    <ul class="mb-0 ps-3">
+                                        <li>To empower every vehicle owner with the knowledge, tools, and support they need
+                                            to maintain their cars with confidence and ease.</li>
+                                        <li>To revolutionize how drivers access quality auto parts and services — fast,
+                                            affordable, and stress-free.</li>
+                                        <li>To make car maintenance simple and accessible for everyone, from first-time
+                                            drivers to seasoned gearheads.</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -56,24 +62,18 @@
                                 </div>
                                 <div class="ps-3">
                                     <h6>Our Mission</h6>
-                                    <span>To provide clear, reliable, and accessible car maintenance advice and tools to
-                                        help every driver take better care of their vehicle.</span>
+                                    <ul class="mb-0 ps-3">
+                                        <li>To provide clear, reliable, and accessible car maintenance advice and tools to
+                                            help every driver take better care of their vehicle.</li>
+                                        <li>To connect drivers with trusted automotive service providers through a simple,
+                                            transparent, and efficient online platform.</li>
+                                        <li>To simplify vehicle ownership by offering expert advice, reliable service
+                                            options, and trusted tools — all in one place.</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 wow fadeIn" data-wow-delay="0.5s">
-                            <div class="d-flex">
-                                <div class="bg-light d-flex flex-shrink-0 align-items-center justify-content-center mt-1"
-                                    style="width: 45px; height: 45px;">
-                                    <span class="fw-bold text-secondary">03</span>
-                                </div>
-                                <div class="ps-3">
-                                    <h6>Our Goal</h6>
-                                    <span>To simplify vehicle ownership by offering expert advice, reliable service
-                                        options, and trusted tools — all in one place.</span>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
