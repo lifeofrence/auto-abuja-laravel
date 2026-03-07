@@ -31,7 +31,7 @@ class HomeController extends Controller
             $bQuery = Business::with(['category', 'subcategory', 'user']);
 
             // Admins see all, others see approved/valid
-            if (!auth()->check() || auth()->user()->role !== 'admin') {
+            if (!auth()->check() || !in_array(auth()->user()->role, ['admin', 'super_admin', 'moderator', 'support'])) {
                 $bQuery->where('status', 'approved')
                     ->whereHas('user', function ($q) {
                         $q->where('license_status', 'Valid');
@@ -71,7 +71,7 @@ class HomeController extends Controller
             $pQuery = Product::with(['business', 'category', 'subcategory', 'business.category', 'business.subcategory', 'user']);
 
             // Admins see all, others see approved/available/valid
-            if (!auth()->check() || auth()->user()->role !== 'admin') {
+            if (!auth()->check() || !in_array(auth()->user()->role, ['admin', 'super_admin', 'moderator', 'support'])) {
                 $pQuery->where('is_available', true)
                     ->whereHas('business', function ($q) {
                         $q->where('status', 'approved');
@@ -115,7 +115,7 @@ class HomeController extends Controller
         $fQuery = Product::with(['business', 'category', 'subcategory', 'business.category', 'business.subcategory', 'user']);
 
         // Admins see all, others see approved/available/valid
-        if (!auth()->check() || auth()->user()->role !== 'admin') {
+        if (!auth()->check() || !in_array(auth()->user()->role, ['admin', 'super_admin', 'moderator', 'support'])) {
             $fQuery->where('is_available', true)
                 ->whereHas('business', function ($q) {
                     $q->where('status', 'approved');
@@ -185,7 +185,7 @@ class HomeController extends Controller
             });
 
         // Admins see all, others see approved/valid
-        if (!auth()->check() || auth()->user()->role !== 'admin') {
+        if (!auth()->check() || !in_array(auth()->user()->role, ['admin', 'super_admin', 'moderator', 'support'])) {
             $query->where('status', 'approved')
                 ->whereHas('user', function ($q) {
                     $q->where('license_status', 'Valid');

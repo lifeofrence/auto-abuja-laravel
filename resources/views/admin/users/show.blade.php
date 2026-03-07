@@ -187,8 +187,14 @@
                                             </option>
                                             <option value="vendor" {{ $user->role == 'vendor' ? 'selected' : '' }}>Verified
                                                 Vendor</option>
+                                            <option value="support" {{ $user->role == 'support' ? 'selected' : '' }}>Support
+                                                Agent</option>
+                                            <option value="moderator" {{ $user->role == 'moderator' ? 'selected' : '' }}>
+                                                Content Moderator</option>
                                             <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Administrator
                                             </option>
+                                            <option value="super_admin" {{ $user->role == 'super_admin' ? 'selected' : '' }}>
+                                                Super Administrator</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6">

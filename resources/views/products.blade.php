@@ -57,7 +57,7 @@
                         </form>
 
                         <!-- Results Count -->
-                        @if(auth()->check() && (auth()->user()->role === 'admin' || auth()->user()->role === 'superadmin'))
+                        @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'super_admin', 'moderator', 'support']))
                             <div class="mt-3">
                                 <p class="mb-0 text-muted">
                                     <i class="fa fa-info-circle me-2"></i>

@@ -18,7 +18,7 @@ class ListingController extends Controller
         $query = Business::with(['category', 'subcategory', 'user']);
 
         // Admins can see everything, others are restricted to approved/valid
-        if (!auth()->check() || auth()->user()->role !== 'admin') {
+        if (!auth()->check() || !in_array(auth()->user()->role, ['admin', 'super_admin', 'moderator', 'support'])) {
             $query->where('status', 'approved')
                 ->whereHas('user', function ($q) {
                     $q->where('license_status', 'Valid');

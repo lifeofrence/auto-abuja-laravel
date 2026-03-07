@@ -17,8 +17,8 @@ class DashboardController extends Controller
             return redirect()->route('login');
         }
 
-        // If User is Admin
-        if ($user->role === 'admin') {
+        $adminRoles = ['admin', 'super_admin', 'moderator', 'support'];
+        if (in_array($user->role, $adminRoles)) {
             return view('admin.dashboard');
         }
 

@@ -64,7 +64,7 @@
         <div class="container-fluid page-header-inner py-5">
             <div class="container text-center">
                 <h1 class="display-3 text-white mb-3 animated slideInDown">{{ $pageTitle }}</h1>
-                @if(auth()->check() && (auth()->user()->role === 'admin' || auth()->user()->role === 'superadmin'))
+                @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'super_admin', 'moderator', 'support']))
                     <p class="text-white fs-5">{{ $businesses->total() }} Business{{ $businesses->total() != 1 ? 'es' : '' }}
                         Found</p>
                 @endif
@@ -113,7 +113,7 @@
 
             <!-- View Toggle -->
             <div class="d-flex justify-content-between align-items-center mb-4">
-                @if(auth()->check() && (auth()->user()->role === 'admin' || auth()->user()->role === 'superadmin'))
+                @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'super_admin', 'moderator', 'support']))
                     <h5 class="mb-0">Showing {{ $businesses->firstItem() ?? 0 }} - {{ $businesses->lastItem() ?? 0 }} of
                         {{ $businesses->total() }} results</h5>
                 @else

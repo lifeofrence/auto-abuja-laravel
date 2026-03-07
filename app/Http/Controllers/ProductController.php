@@ -64,7 +64,7 @@ class ProductController extends Controller
             ->where('slug', $slug);
 
         // Admins can see everything, others are restricted to approved/valid/available
-        if (!auth()->check() || auth()->user()->role !== 'admin') {
+        if (!auth()->check() || !in_array(auth()->user()->role, ['admin', 'super_admin', 'moderator', 'support'])) {
             $query->where('is_available', true)
                 ->whereHas('business', function ($q) {
                     $q->where('status', 'approved');
