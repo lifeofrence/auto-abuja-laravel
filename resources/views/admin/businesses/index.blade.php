@@ -83,6 +83,13 @@
                                 <div class="d-flex gap-2 justify-content-end align-items-center">
                                     <!-- Account Management Group -->
                                     <div class="d-flex gap-1">
+                                        @if($biz->slug)
+                                            <a href="{{ route('business.show', $biz->slug) }}" target="_blank" class="btn btn-sm"
+                                                title="Preview Business"
+                                                style="background:#fff; border:1px solid #eef2f6; color:#0d6efd; border-radius:6px; width:34px; height:34px; display:inline-flex; align-items:center; justify-content:center;">
+                                                <i class="fa fa-external-link-alt"></i>
+                                            </a>
+                                        @endif
                                         <a href="{{ route('admin.users.show', $biz->user_id) }}" class="btn btn-sm"
                                             title="View Profile"
                                             style="background:#fff; border:1px solid #eef2f6; color:#555; border-radius:6px; width:34px; height:34px; display:inline-flex; align-items:center; justify-content:center;">
@@ -94,9 +101,9 @@
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <!-- <a href="{{ route('admin.products.index', ['search' => $biz->business_name]) }}" class="btn btn-sm" title="View Products" 
-                                                    style="background:#fff; border:1px solid #eef2f6; color:#555; border-radius:6px; width:34px; height:34px; display:inline-flex; align-items:center; justify-content:center;">
-                                                    <i class="fa fa-shopping-bag"></i>
-                                                </a> -->
+                                                            style="background:#fff; border:1px solid #eef2f6; color:#555; border-radius:6px; width:34px; height:34px; display:inline-flex; align-items:center; justify-content:center;">
+                                                            <i class="fa fa-shopping-bag"></i>
+                                                        </a> -->
                                     </div>
 
                                     <div style="width: 1px; height: 20px; background: #eef2f6;"></div>

@@ -24,6 +24,12 @@
                     <a href="{{ route('admin.users.index') }}" class="btn-glass secondary me-2">
                         <i class="fa fa-arrow-left me-2"></i> Return to Directory
                     </a>
+                    @if($user->role == 'vendor' && optional($user->business)->slug)
+                        <a href="{{ route('business.show', $user->business->slug) }}" target="_blank"
+                            class="btn-glass secondary me-2">
+                            <i class="fa fa-external-link-alt me-2"></i> Preview Business
+                        </a>
+                    @endif
                     <button class="btn-glass primary" onclick="document.getElementById('edit-account-tab').click()">
                         <i class="fa fa-magic me-2"></i> Quick Edit
                     </button>
