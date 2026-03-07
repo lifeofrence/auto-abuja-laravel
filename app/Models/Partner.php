@@ -11,11 +11,11 @@ class Partner extends Model
     public function getImageUrlAttribute()
     {
         if (!$this->logo) {
-            return asset('public/img/default-partner.png');
+            return asset('img/default-partner.png');
         }
         $path = $this->logo;
-        if (!str_starts_with($path, 'public/') && !str_contains($path, 'http')) {
-            $path = 'public/' . ltrim($path, '/');
+        if (!str_starts_with($path, 'http') && !str_starts_with($path, 'img/') && !str_starts_with($path, 'storage/')) {
+            $path = 'storage/' . ltrim($path, '/');
         }
         return asset($path);
     }

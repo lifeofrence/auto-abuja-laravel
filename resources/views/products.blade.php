@@ -4,7 +4,7 @@
 
     <!-- Page Header Start -->
     <div class="container-fluid page-header mb-5 p-0"
-        style="background-image: url('{{ asset('public/img/carousel-bg-2.jpg') }}');">
+        style="background-image: url('{{ asset('img/carousel-bg-2.jpg') }}');">
         <div class="container-fluid page-header-inner py-5">
             <div class="container text-center">
                 <h1 class="display-3 text-white mb-3 animated slideInDown">Products</h1>
@@ -21,35 +21,50 @@
                 <div class="col-lg-12">
                     <div class="bg-light p-4 rounded">
                         <form method="GET" action="{{ url('/product') }}" class="row g-3 align-items-center">
-                            <!-- Search Bar -->
-                            <div class="col-lg-6">
+                            <!-- Keyword Search -->
+                            <div class="col-lg-4">
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="search"
-                                        placeholder="Search for products (e.g., Benz, Camry, EV)..." value="{{ $search }}">
-                                    <button class="btn btn-primary" type="submit">
-                                        <i class="fa fa-search"></i> Search
-                                    </button>
+                                        placeholder="Search products (e.g., Benz, Camry)..." value="{{ request('search') }}">
                                 </div>
                             </div>
 
-                            <!-- Wishlist and Cart -->
-                            <div class="col-lg-6 text-end">
-                                <button type="button" class="btn btn-outline-danger me-2" id="wishlistBtn">
-                                    <i class="fa fa-heart"></i> Wishlist (<span id="wishlistCount">0</span>)
-                                </button>
-                                <button type="button" class="btn btn-outline-primary" id="cartBtn">
-                                    <i class="fa fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)
+                            <!-- Category -->
+                            <div class="col-lg-3">
+                                <select name="category" id="categorySelect" class="form-select">
+                                    <option value="">All Categories</option>
+                                    @foreach($categories as $cat)
+                                        <option value="{{ $cat->slug }}" {{ request('category') === $cat->slug ? 'selected' : '' }}>
+                                            {{ $cat->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Subcategory -->
+                            <div class="col-lg-3">
+                                <select name="subcategory" id="subcategorySelect" class="form-select">
+                                    <option value="">All Sub-types</option>
+                                </select>
+                            </div>
+
+                            <!-- Search Action -->
+                            <div class="col-lg-2">
+                                <button class="btn btn-primary w-100" type="submit">
+                                    <i class="fa fa-search me-2"></i>Search
                                 </button>
                             </div>
                         </form>
 
                         <!-- Results Count -->
-                        <div class="mt-3">
-                            <p class="mb-0 text-muted">
-                                <i class="fa fa-info-circle me-2"></i>
-                                Showing <span>{{ $products->total() }}</span> product(s)
-                            </p>
-                        </div>
+                        @if(auth()->check() && (auth()->user()->role === 'admin' || auth()->user()->role === 'superadmin'))
+                            <div class="mt-3">
+                                <p class="mb-0 text-muted">
+                                    <i class="fa fa-info-circle me-2"></i>
+                                    Showing <span>{{ $products->total() }}</span> product(s)
+                                </p>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -60,31 +75,38 @@
                     <div class="col-lg-3 col-md-6 wow fadeInUp product-item" data-wow-delay="0.1s">
                         <div class="card h-100 border-0 shadow">
                             <div class="position-relative">
-                                <!-- In a real app we'd load the product image; fallback to placeholder here -->
-                                <img src="{{ asset('public/img/bg-intro.jpg') }}" class="card-img-top" alt="{{ $product->name }}"
+                                <img src="{{ $product->image_url }}" class="card-img-top" alt="{{ $product->name }}"
                                     style="height:200px; object-fit:cover;">
-                                <div class="position-absolute top-0 end-0 p-2">
-                                    <button class="btn btn-sm btn-light rounded-circle wishlist-btn"
-                                        data-product="{{ $product->name }}" title="Add to Wishlist">
-                                        <i class="fa fa-heart"></i>
-                                    </button>
-                                </div>
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title mb-3">{{ $product->name }}</h5>
                                 <h4 class="text-primary mb-3">₦{{ number_format($product->price) }}</h4>
+                                
+                                <div class="mb-3">
+                                    @php
+                                        $pCategoryName = $product->category->name ?? $product->business->category->name ?? '';
+                                        $pCategorySlug = $product->category->slug ?? $product->business->category->slug ?? '';
+                                        $pSubcatName = $product->subcategory->name ?? $product->business->subcategory->name ?? '';
+                                        $pSubcatSlug = $product->subcategory->slug ?? $product->business->subcategory->slug ?? '';
+                                    @endphp
+                                    <a href="{{ url('/product?category=' . $pCategorySlug) }}" class="badge text-decoration-none me-1"
+                                        style="background:#F68B1E; color:#000; font-size:11px;">
+                                        <i class="fa fa-tag me-1"></i>{{ $pCategoryName }}
+                                    </a>
+                                    @if($pSubcatName)
+                                        <div class="mt-1 w-100">
+                                            <a href="{{ url('/product?category=' . $pCategorySlug . '&subcategory=' . $pSubcatSlug) }}"
+                                                class="badge bg-light text-dark border text-decoration-none d-inline-block text-truncate" style="font-size:11px; max-width: 100%;">
+                                                {{ $pSubcatName }}
+                                            </a>
+                                        </div>
+                                    @endif
+                                </div>
+
                                 @if($product->business)
                                     <p class="text-secondary mb-3 small">By {{ $product->business->business_name }}</p>
                                 @endif
-                                <!-- Product ID -->
-                                <p class="text-secondary mb-3 small">Quote Product #:
-                                    PRD-{{ str_pad($product->id, 3, '0', STR_PAD_LEFT) }}</p>
-
-                                <button class="btn btn-primary w-100 mb-2 add-to-cart" data-product="{{ $product->name }}"
-                                    data-price="{{ $product->price }}">
-                                    <i class="fa fa-shopping-cart"></i> Add to Cart
-                                </button>
-                                <a href="#" class="btn btn-outline-primary w-100 btn-sm">View Details</a>
+                                <a href="{{ url('/product/' . $product->slug) }}" class="btn btn-outline-primary w-100 btn-sm">View Details</a>
                             </div>
                         </div>
                     </div>
@@ -115,106 +137,39 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const wishlistBtn = document.getElementById('wishlistBtn');
-            const cartBtn = document.getElementById('cartBtn');
-            const wishlistCount = document.getElementById('wishlistCount');
-            const cartCount = document.getElementById('cartCount');
+            // Dropdown Logic
+            const categorySelect = document.getElementById('categorySelect');
+            const subcategorySelect = document.getElementById('subcategorySelect');
+            const selectedSubcatSlug = '{{ request("subcategory") ?? "" }}';
 
-            let wishlist = [];
-            let cart = [];
+            function loadSubcategories(categorySlug, preselect) {
+                subcategorySelect.innerHTML = '<option value="">All Sub-types</option>';
+                if (!categorySlug) return;
 
-            // Wishlist Functionality
-            document.querySelectorAll('.wishlist-btn').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const productName = this.getAttribute('data-product');
-
-                    if (!wishlist.includes(productName)) {
-                        wishlist.push(productName);
-                        this.classList.add('text-danger');
-                        this.innerHTML = '<i class="fa fa-heart"></i>';
-                        showNotification(`${productName} added to wishlist!`, 'success');
-                    } else {
-                        wishlist = wishlist.filter(item => item !== productName);
-                        this.classList.remove('text-danger');
-                        this.innerHTML = '<i class="fa fa-heart"></i>';
-                        showNotification(`${productName} removed from wishlist!`, 'info');
-                    }
-
-                    wishlistCount.textContent = wishlist.length;
-                });
-            });
-
-            // Cart Functionality
-            document.querySelectorAll('.add-to-cart').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const productName = this.getAttribute('data-product');
-                    const productPrice = this.getAttribute('data-price');
-
-                    const existingItem = cart.find(item => item.name === productName);
-
-                    if (!existingItem) {
-                        cart.push({ name: productName, price: productPrice, quantity: 1 });
-                        this.innerHTML = '<i class="fa fa-check"></i> Added to Cart';
-                        this.classList.remove('btn-primary');
-                        this.classList.add('btn-success');
-                        showNotification(`${productName} added to cart!`, 'success');
-
-                        setTimeout(() => {
-                            this.innerHTML = '<i class="fa fa-shopping-cart"></i> Add to Cart';
-                            this.classList.remove('btn-success');
-                            this.classList.add('btn-primary');
-                        }, 2000);
-                    } else {
-                        existingItem.quantity++;
-                        showNotification(`${productName} quantity updated!`, 'info');
-                    }
-
-                    cartCount.textContent = cart.length;
-                });
-            });
-
-            // Wishlist Button Click
-            wishlistBtn.addEventListener('click', function () {
-                if (wishlist.length === 0) {
-                    showNotification('Your wishlist is empty!', 'warning');
-                } else {
-                    showNotification(`You have ${wishlist.length} item(s) in your wishlist: ${wishlist.join(', ')}`, 'info');
-                }
-            });
-
-            // Cart Button Click
-            cartBtn.addEventListener('click', function () {
-                if (cart.length === 0) {
-                    showNotification('Your cart is empty!', 'warning');
-                } else {
-                    let cartSummary = 'Cart Items:\n';
-                    let total = 0;
-                    cart.forEach(item => {
-                        const itemTotal = parseInt(item.price) * item.quantity;
-                        total += itemTotal;
-                        cartSummary += `${item.name} (x${item.quantity}) - ₦${itemTotal.toLocaleString()}\n`;
-                    });
-                    cartSummary += `\nTotal: ₦${total.toLocaleString()}`;
-                    alert(cartSummary);
-                }
-            });
-
-            // Notification Function
-            function showNotification(message, type) {
-                const notification = document.createElement('div');
-                notification.className = `alert alert-${type} position-fixed top-0 end-0 m-3`;
-                notification.style.zIndex = '9999';
-                notification.style.minWidth = '300px';
-                notification.innerHTML = `
-                    <i class="fa fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
-                    ${message}
-                `;
-                document.body.appendChild(notification);
-
-                setTimeout(() => {
-                    notification.remove();
-                }, 3000);
+                fetch('/api/subcategories?category=' + encodeURIComponent(categorySlug))
+                    .then(res => res.json())
+                    .then(subcategories => {
+                        subcategories.forEach(sc => {
+                            var opt = document.createElement('option');
+                            opt.value = sc.slug;
+                            opt.textContent = sc.name;
+                            if (preselect && sc.slug === preselect) {
+                                opt.selected = true;
+                            }
+                            subcategorySelect.appendChild(opt);
+                        });
+                    })
+                    .catch(err => console.error('Subcategory load failed:', err));
             }
+
+            categorySelect.addEventListener('change', function () {
+                loadSubcategories(this.value, null);
+            });
+
+            if (categorySelect.value) {
+                loadSubcategories(categorySelect.value, selectedSubcatSlug);
+            }
+
         });
     </script>
 @endpush

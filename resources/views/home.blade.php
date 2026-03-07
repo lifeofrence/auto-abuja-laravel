@@ -165,7 +165,7 @@
         <div class="container">
             <div class="text-center mb-5">
                 <h6 class="text-uppercase mb-2" style="color: #F68B1E; font-weight: 600; letter-spacing: 2px;">Featured
-                    Products</h6>
+                    Products & Services</h6>
             </div>
             <div class="row g-4" id="productsGrid">
                 @forelse($featuredProducts as $index => $product)
@@ -189,10 +189,13 @@
                                         <i class="fa fa-tag me-1"></i>{{ $pCategoryName }}
                                     </a>
                                     @if($pSubcatName)
-                                        <a href="{{ url('/?category=' . $pCategorySlug . '&subcategory=' . $pSubcatSlug) }}"
-                                            class="badge bg-light text-dark border text-decoration-none" style="font-size:11px;">
-                                            {{ $pSubcatName }}
-                                        </a>
+                                        <div class="mt-1 w-100">
+                                            <a href="{{ url('/?category=' . $pCategorySlug . '&subcategory=' . $pSubcatSlug) }}"
+                                                class="badge bg-light text-dark border text-decoration-none d-inline-block text-truncate"
+                                                style="font-size:11px; max-width: 100%;">
+                                                {{ $pSubcatName }}
+                                            </a>
+                                        </div>
                                     @endif
                                 </div>
                                 <h4 class="mb-2" style="color: #F68B1E;">₦{{ number_format($product->price, 2) }}</h4>
@@ -207,6 +210,11 @@
                         <p class="text-muted">No featured products available at the moment.</p>
                     </div>
                 @endforelse
+            </div>
+            <div class="text-center mt-5 wow fadeInUp" data-wow-delay="0.1s">
+                <a href="{{ route('products.index') }}" class="btn btn-primary py-3 px-5 rounded-pill shadow-sm fw-bold">
+                    View More Products <i class="fa fa-arrow-right ms-2"></i>
+                </a>
             </div>
         </div>
     </div>
@@ -238,12 +246,12 @@
                         <h4 class="mb-4 fw-bold">List Your Business</h4>
                         <p class="text-muted mb-4">Get started today and join our growing community of automotive
                             professionals</p>
-                        <a href="auth.php" class="btn btn-lg w-100 py-3 mb-3 fw-bold"
+                        <a href="{{ route('register') }}" class="btn btn-lg w-100 py-3 mb-3 fw-bold"
                             style="background: #F68B1E; border: none; color: #000;">
                             <i class="fa fa-user-plus me-2"></i>Register Now
                         </a>
-                        <p class="small text-muted mb-0">Already have an account? <a href="auth.php" class="fw-bold"
-                                style="color: #F68B1E; text-decoration: underline;">Sign In</a></p>
+                        <p class="small text-muted mb-0">Already have an account? <a href="{{ route('login') }}"
+                                class="fw-bold" style="color: #F68B1E; text-decoration: underline;">Sign In</a></p>
                     </div>
                 </div>
             </div>
@@ -283,7 +291,7 @@
                     @endforeach
                 @else
                     <div class="carousel-item active">
-                        <img class="w-100" src="{{ asset('public/img/carousel-bg-1.jpg') }}" alt="Image">
+                        <img class="w-100" src="{{ asset('img/carousel-bg-1.jpg') }}" alt="Image">
                         <div class="carousel-caption d-flex align-items-center">
                             <div class="container">
                                 <div class="row justify-content-start">
@@ -359,38 +367,80 @@
     <!-- Partners End -->
 
     <!-- Testimonials Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="text-primary text-uppercase"> Testimonials </h6>
-                <h1 class="mb-5">What Our Clients Say</h1>
+    <div class="container-fluid py-5" style="background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);">
+        <div class="container py-5">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                <h6 class="text-primary text-uppercase fw-bold mb-2" style="letter-spacing: 3px;">Social Proof</h6>
+                <h1 class="display-5 mb-0 fw-bold">What Our Clients Say</h1>
+                <div class="mx-auto mt-3" style="width: 80px; height: 4px; background: var(--primary); border-radius: 2px;">
+                </div>
             </div>
-            <div class="row g-4">
+            <div class="row g-4 justify-content-center">
                 @if($testimonials->isNotEmpty())
-                    @foreach($testimonials as $t)
-                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                            <div class="testimonial-item bg-light p-4 rounded h-100">
-                                <div class="d-flex align-items-center mb-3">
+                    @foreach($testimonials as $index => $t)
+                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="{{ 0.1 + ($index * 0.2) }}s">
+                            <div class="testimonial-card bg-white p-5 h-100 position-relative shadow-sm hover-lift"
+                                style="border-radius: 20px; border: 1px solid rgba(0,0,0,0.05); transition: all 0.3s ease;">
+                                <div class="quote-icon position-absolute top-0 end-0 p-4 opacity-10" style="pointer-events: none;">
+                                    <!-- <i class="fa fa-quote-right fa-4x text-primary"></i> -->
+                                </div>
+                                <div class="d-flex align-items-center mb-4">
+                                    <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center shadow-sm"
+                                        style="width: 60px; height: 60px; min-width: 60px;">
+                                        <span class="text-white fw-bold fs-4">{{ substr($t->name ?? 'U', 0, 1) }}</span>
+                                    </div>
                                     <div class="ps-3">
-                                        <h5 class="fw-bold mb-1">
-                                            {{ $t->name }}
-                                        </h5>
-                                        <small class="text-muted">
-                                            {{ $t->position }}
-                                        </small>
+                                        <h5 class="fw-bold mb-0" style="color: #1a1a2e;">{{ $t->name }}</h5>
+                                        <small class="text-muted fw-medium">{{ $t->position }}</small>
+                                        <div class="stars mt-1" style="color: #FFB400; font-size: 0.75rem;">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
                                     </div>
                                 </div>
-                                <p class="mb-0 italic">"
-                                    {{ $t->text }}"
+                                <p class="mb-0 fs-6 text-secondary lh-lg"
+                                    style="font-style: italic; position: relative; z-index: 1;">
+                                    "{{ $t->text }}"
                                 </p>
                             </div>
                         </div>
                     @endforeach
+                @else
+                    <div class="col-12 text-center text-muted">No testimonials yet. Be the first to share your experience!</div>
                 @endif
             </div>
         </div>
     </div>
     <!-- Testimonials End -->
+
+    <style>
+        .hover-lift:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+            border-color: var(--primary) !important;
+        }
+
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20%;
+            bottom: 20%;
+            width: 4px;
+            background: var(--primary);
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .testimonial-card:hover::before {
+            opacity: 1;
+        }
+    </style>
     @push('scripts')
         <script>
             (function () {

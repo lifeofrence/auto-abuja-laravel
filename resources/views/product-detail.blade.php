@@ -13,6 +13,12 @@
             width: 100%;
             height: 450px;
             object-fit: cover;
+            cursor: zoom-in;
+            transition: opacity 0.3s;
+        }
+
+        .main-image:hover {
+            opacity: 0.9;
         }
 
         .thumb-image {
@@ -69,7 +75,8 @@
                 <!-- Product Images -->
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="product-image-container mb-3">
-                        <img id="mainImage" src="{{ $product->image_url }}" class="main-image" alt="{{ $product->name }}">
+                        <img id="mainImage" src="{{ $product->image_url }}" class="main-image" alt="{{ $product->name }}"
+                            onclick="enlargeImage()">
                     </div>
                     @if(count($product_images) > 0)
                         <div class="d-flex overflow-auto pb-2">
@@ -120,12 +127,35 @@
                                     <span class="badge-verified"><i class="fa fa-check-circle me-1"></i>Verified</span>
                                 @endif
                             </div>
-                            <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-2"></i>
-                                {{ $product->business->address }}
+                            <p class="mb-2">
+                                <a href="{{ $product->business->google_maps_link ?: 'https://www.google.com/maps/search/?api=1&query=' . urlencode($product->business->address) }}"
+                                    target="_blank" class="text-secondary text-decoration-none">
+                                    <i class="fa fa-map-marker-alt text-primary me-2"></i>{{ $product->business->address }}
+                                </a>
                             </p>
-                            <p class="mb-4"><i class="fa fa-phone-alt text-primary me-2"></i>
-                                {{ $product->business->phone }}
+
+                            <p class="mb-2">
+                                <a href="tel:{{ $product->business->phone }}" class="text-secondary text-decoration-none">
+                                    <i class="fa fa-phone-alt text-primary me-2"></i>{{ $product->business->phone }}
+                                </a>
                             </p>
+
+                            @if($product->business->email)
+                                <p class="mb-2">
+                                    <a href="mailto:{{ $product->business->email }}" class="text-secondary text-decoration-none">
+                                        <i class="fa fa-envelope text-primary me-2"></i>{{ $product->business->email }}
+                                    </a>
+                                </p>
+                            @endif
+
+                            @if($product->business->website)
+                                <p class="mb-4">
+                                    <a href="{{ str_starts_with($product->business->website, 'http') ? $product->business->website : 'https://' . $product->business->website }}"
+                                        target="_blank" class="text-secondary text-decoration-none">
+                                        <i class="fa fa-globe text-primary me-2"></i>{{ $product->business->website }}
+                                    </a>
+                                </p>
+                            @endif
 
                             <div class="row g-2">
                                 <div class="col-6">
@@ -139,6 +169,12 @@
                                         <i class="fab fa-whatsapp me-2"></i>WhatsApp
                                     </a>
                                 </div>
+                                <div class="col-12 mt-2">
+                                    <a href="{{ $product->business->google_maps_link ?: 'https://www.google.com/maps/dir/?api=1&destination=' . urlencode($product->business->address) }}"
+                                        target="_blank" class="btn btn-outline-dark w-100 py-3">
+                                        <i class="fa fa-directions me-2 text-primary"></i>Get Directions
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     @endif
@@ -148,7 +184,7 @@
             <!-- Related Products -->
             @if($relatedProducts->count() > 0)
                 <div class="mt-5 pt-5">
-                    <h3 class="fw-bold mb-4">Other products from this business</h3>
+                    <h3 class="fw-bold mb-4">Other products/services from this business</h3>
                     <div class="row g-4">
                         @foreach($relatedProducts as $rp)
                             <div class="col-lg-3 col-md-6">
@@ -175,6 +211,19 @@
         </div>
     </div>
 
+    <!-- Image Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content bg-transparent border-0">
+                <div class="modal-body p-0 text-center position-relative">
+                    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                        data-bs-dismiss="modal" aria-label="Close" style="z-index: 1060;"></button>
+                    <img id="modalEnlargedImage" src="" class="img-fluid rounded shadow-lg" style="max-height: 90vh;">
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')
@@ -184,6 +233,14 @@
             const thumbs = document.querySelectorAll('.thumb-image');
             thumbs.forEach(t => t.classList.remove('active'));
             thumb.classList.add('active');
+        }
+
+        function enlargeImage() {
+            const mainImgSrc = document.getElementById('mainImage').src;
+            const modalImg = document.getElementById('modalEnlargedImage');
+            modalImg.src = mainImgSrc;
+            const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+            imageModal.show();
         }
     </script>
 @endpush

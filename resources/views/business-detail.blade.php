@@ -4,7 +4,7 @@
 
     <style>
         .business-header {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{{ asset($business->cover_image ?: "public/img/carousel-bg-1.jpg") }}');
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{{ $business->image_url }}');
             background-position: center;
             background-size: cover;
             padding: 100px 0;
@@ -105,13 +105,15 @@
                         </p>
 
                         <h4 class="fw-bold mb-4">Location</h4>
-                        <p class="mb-4"><i class="fa fa-map-marker-alt text-primary me-2"></i>
-                            {{ $business->address }}
+                        <p class="mb-4">
+                            <a href="{{ $business->google_maps_link ?: 'https://www.google.com/maps/search/?api=1&query=' . urlencode($business->address) }}" target="_blank" class="text-secondary text-decoration-none">
+                                <i class="fa fa-map-marker-alt text-primary me-2"></i>{{ $business->address }}
+                            </a>
                         </p>
                         <!-- Map placeholder -->
                         <div class="bg-light rounded p-4 text-center"
-                            style="height: 300px; display: flex; align-items: center; justify-content: center; background-image: url('{{ asset("public/img/map-placeholder.jpg") }}'); background-size: cover;">
-                            <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($business->address) }}"
+                            style="height: 300px; display: flex; align-items: center; justify-content: center; background-image: url('{{ asset("img/map-placeholder.jpg") }}'); background-size: cover;">
+                            <a href="{{ $business->google_maps_link ?: 'https://www.google.com/maps/search/?api=1&query=' . urlencode($business->address) }}"
                                 target="_blank" class="btn btn-dark">Open in Google Maps</a>
                         </div>
                     </div>
@@ -149,7 +151,7 @@
                         <div class="row g-3">
                             @forelse($gallery as $img)
                                 <div class="col-md-4">
-                                    <img src="{{ asset($img->image_path) }}" class="img-fluid gallery-img"
+                                    <img src="{{ $img->image_url }}" class="img-fluid gallery-img"
                                         alt="{{ $img->caption }}" data-bs-toggle="modal" data-bs-target="#galleryModal"
                                         onclick="setModalImg(this.src)">
                                 </div>
@@ -213,6 +215,10 @@
                             <a href="https://wa.me/{{ str_replace(['+', ' '], '', $business->whatsapp) }}"
                                 class="btn btn-success py-3">WhatsApp Message</a>
                         @endif
+                        <a href="{{ $business->google_maps_link ?: 'https://www.google.com/maps/dir/?api=1&destination=' . urlencode($business->address) }}"
+                            target="_blank" class="btn btn-outline-dark py-3">
+                            <i class="fa fa-directions me-2 text-primary"></i>Get Directions
+                        </a>
                     </div>
 
                     <hr>
@@ -221,14 +227,13 @@
                     <ul class="list-unstyled">
                         @php $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']; @endphp
                         @foreach($days as $day)
-                            @php $hours = $business_hours[strtolower($day)] ?? 'Closed'; @endphp
+                            @php 
+                                $hoursData = $business_hours[$day] ?? null; 
+                                $displayHours = $hoursData ? ($hoursData['open'] . ' - ' . $hoursData['close']) : 'Closed';
+                            @endphp
                             <li class="d-flex justify-content-between mb-2">
-                                <span>
-                                    {{ $day }}
-                                </span>
-                                <span class="text-muted">
-                                    {{ $hours }}
-                                </span>
+                                <span>{{ $day }}</span>
+                                <span class="text-muted">{{ $displayHours }}</span>
                             </li>
                         @endforeach
                     </ul>

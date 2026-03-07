@@ -11,11 +11,11 @@ class Advertisement extends Model
     public function getImageUrlAttribute()
     {
         if (!$this->image) {
-            return asset('public/img/carousel-bg-1.jpg');
+            return asset('img/carousel-bg-1.jpg');
         }
         $path = $this->image;
-        if (!str_starts_with($path, 'public/') && !str_contains($path, 'http')) {
-            $path = 'public/' . ltrim($path, '/');
+        if (!str_starts_with($path, 'http') && !str_starts_with($path, 'img/') && !str_starts_with($path, 'storage/')) {
+            $path = 'storage/' . ltrim($path, '/');
         }
         return asset($path);
     }

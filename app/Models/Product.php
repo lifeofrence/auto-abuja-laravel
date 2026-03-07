@@ -31,13 +31,19 @@ class Product extends Model
 
     public function getImageUrlAttribute()
     {
-        if (!$this->image) {
-            return asset('public/img/default-product.jpg');
+        $path = $this->image;
+        if (!$path) {
+            return asset('img/carousel-bg-1.jpg');
         }
 
-        $path = $this->image;
-        if (!str_starts_with($path, 'public/') && !str_contains($path, 'http')) {
-            $path = 'public/' . ltrim($path, '/');
+        if (str_starts_with($path, 'http')) {
+            return $path;
+        }
+
+        $path = ltrim($path, '/');
+        // Handle images stored in storage/app/public/...
+        if (!str_starts_with($path, 'img/') && !str_starts_with($path, 'uploads/') && !str_starts_with($path, 'storage/')) {
+            $path = 'storage/' . $path;
         }
 
         return asset($path);

@@ -9,9 +9,22 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    public function businesses() { return $this->hasMany(Business::class); }
-    public function products() { return $this->hasMany(Product::class); }
-    public function reviews() { return $this->hasMany(Review::class); }
+    public function businesses()
+    {
+        return $this->hasMany(Business::class);
+    }
+    public function business()
+    {
+        return $this->hasOne(Business::class)->latestOfMany();
+    }
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -24,6 +37,22 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'vio_user_id',
+        'role',
+        'status',
+        'phone',
+        'address',
+        'activation_token',
+        'business_name',
+        'business_address',
+        'business_location',
+        'association_or_union',
+        'service_type',
+        'service_category',
+        'service_description',
+        'license_start_date',
+        'license_end_date',
+        'license_status',
     ];
 
     /**
@@ -46,6 +75,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'license_start_date' => 'datetime',
+            'license_end_date' => 'datetime',
         ];
     }
 }

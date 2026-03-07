@@ -60,12 +60,14 @@
 
     <!-- Page Header Start -->
     <div class="container-fluid page-header mb-5 p-0"
-        style="background-image: url('{{ asset('public/img/carousel-bg-2.jpg') }}');">
+        style="background-image: url('{{ asset('img/carousel-bg-2.jpg') }}');">
         <div class="container-fluid page-header-inner py-5">
             <div class="container text-center">
                 <h1 class="display-3 text-white mb-3 animated slideInDown">{{ $pageTitle }}</h1>
-                <p class="text-white fs-5">{{ $businesses->total() }} Business{{ $businesses->total() != 1 ? 'es' : '' }}
-                    Found</p>
+                @if(auth()->check() && (auth()->user()->role === 'admin' || auth()->user()->role === 'superadmin'))
+                    <p class="text-white fs-5">{{ $businesses->total() }} Business{{ $businesses->total() != 1 ? 'es' : '' }}
+                        Found</p>
+                @endif
             </div>
         </div>
     </div>
@@ -111,9 +113,12 @@
 
             <!-- View Toggle -->
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h5 class="mb-0">Showing {{ $businesses->firstItem() ?? 0 }} - {{ $businesses->lastItem() ?? 0 }} of
-                    {{ $businesses->total() }} results
-                </h5>
+                @if(auth()->check() && (auth()->user()->role === 'admin' || auth()->user()->role === 'superadmin'))
+                    <h5 class="mb-0">Showing {{ $businesses->firstItem() ?? 0 }} - {{ $businesses->lastItem() ?? 0 }} of
+                        {{ $businesses->total() }} results</h5>
+                @else
+                    <h5 class="mb-0"></h5>
+                @endif
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-outline-primary active" onclick="showGridView()">
                         <i class="fa fa-th"></i> Grid
@@ -132,11 +137,6 @@
                             <div class="position-relative">
                                 <img src="{{ $business->image_url }}" class="card-img-top listing-image"
                                     alt="{{ $business->business_name }}">
-                                @if($business->is_featured)
-                                    <span class="badge-featured">
-                                        <i class="fa fa-star"></i> Featured
-                                    </span>
-                                @endif
                             </div>
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-start mb-2">
@@ -152,6 +152,13 @@
                                         </span>
                                     @endif
                                 </div>
+
+                                @if($business->category)
+                                    <a href="{{ url('/listings?category=' . $business->category->slug) }}" class="badge text-decoration-none me-1 mb-2"
+                                        style="background:#F68B1E; color:#000; font-size:12px;">
+                                        <i class="fa fa-tag me-1"></i>{{ $business->category->name }}
+                                    </a>
+                                @endif
 
                                 @if($business->subcategory)
                                     <span class="badge bg-{{ $business->subcategory->badge_color ?: 'primary' }} mb-2">
@@ -245,15 +252,15 @@
 
                 const infoWindow = new google.maps.InfoWindow({
                     content: `
-                            <div style="max-width: 250px;">
-                                <h6>${business.business_name}</h6>
-                                <p class="small mb-1">${business.address}</p>
-                                <p class="small mb-2">${business.phone}</p>
-                                <a href="{{ url('/business') }}/${business.slug}" class="btn btn-sm btn-primary">
-                                    View Details
-                                </a>
-                            </div>
-                        `
+                                <div style="max-width: 250px;">
+                                    <h6>${business.business_name}</h6>
+                                    <p class="small mb-1">${business.address}</p>
+                                    <p class="small mb-2">${business.phone}</p>
+                                    <a href="{{ url('/business') }}/${business.slug}" class="btn btn-sm btn-primary">
+                                        View Details
+                                    </a>
+                                </div>
+                            `
                 });
 
                 marker.addListener('click', () => {

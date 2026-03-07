@@ -28,8 +28,15 @@ class HomeController extends Controller
             $showResults = true;
 
             // Search Businesses
-            $bQuery = Business::with(['category', 'subcategory'])
-                ->where('status', 'approved');
+            $bQuery = Business::with(['category', 'subcategory', 'user']);
+
+            // Admins see all, others see approved/valid
+            if (!auth()->check() || auth()->user()->role !== 'admin') {
+                $bQuery->where('status', 'approved')
+                    ->whereHas('user', function ($q) {
+                        $q->where('license_status', 'Valid');
+                    });
+            }
 
             if ($categorySlug) {
                 $bQuery->whereHas('category', function ($q) use ($categorySlug) {
@@ -61,8 +68,18 @@ class HomeController extends Controller
                 ->get();
 
             // Search Products
-            $pQuery = Product::with(['business', 'category', 'subcategory', 'business.category', 'business.subcategory'])
-                ->where('is_available', true);
+            $pQuery = Product::with(['business', 'category', 'subcategory', 'business.category', 'business.subcategory', 'user']);
+
+            // Admins see all, others see approved/available/valid
+            if (!auth()->check() || auth()->user()->role !== 'admin') {
+                $pQuery->where('is_available', true)
+                    ->whereHas('business', function ($q) {
+                        $q->where('status', 'approved');
+                    })
+                    ->whereHas('user', function ($q) {
+                        $q->where('license_status', 'Valid');
+                    });
+            }
 
             if ($search) {
                 $pQuery->where(function ($q) use ($search) {
@@ -95,11 +112,22 @@ class HomeController extends Controller
         }
 
         // Featured Products
-        $featuredProducts = Product::with(['business', 'category', 'subcategory', 'business.category', 'business.subcategory'])
-            ->where('is_available', true)
-            ->orderByDesc('is_featured')
+        $fQuery = Product::with(['business', 'category', 'subcategory', 'business.category', 'business.subcategory', 'user']);
+
+        // Admins see all, others see approved/available/valid
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            $fQuery->where('is_available', true)
+                ->whereHas('business', function ($q) {
+                    $q->where('status', 'approved');
+                })
+                ->whereHas('user', function ($q) {
+                    $q->where('license_status', 'Valid');
+                });
+        }
+
+        $featuredProducts = $fQuery->orderByDesc('is_featured')
             ->latest()
-            ->take(8)
+            ->take(16)
             ->get();
 
         // Categories & Subcategories for Dropdowns
@@ -151,12 +179,20 @@ class HomeController extends Controller
 
     private function getBusinessesByCategory($slug, $limit = 8)
     {
-        return Business::with('category')
+        $query = Business::with(['category', 'user'])
             ->whereHas('category', function ($q) use ($slug) {
                 $q->where('slug', $slug);
-            })
-            ->where('status', 'approved')
-            ->orderByDesc('is_featured')
+            });
+
+        // Admins see all, others see approved/valid
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            $query->where('status', 'approved')
+                ->whereHas('user', function ($q) {
+                    $q->where('license_status', 'Valid');
+                });
+        }
+
+        return $query->orderByDesc('is_featured')
             ->latest()
             ->take($limit)
             ->get();

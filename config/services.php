@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'trade_license' => [
+        'url' => env('TRADE_LICENSE_API_URL'),
+        'token' => env('TRADE_LICENSE_API_TOKEN'),
+        'user' => env('TRADE_LICENSE_API_USER'),
+        'pass' => env('TRADE_LICENSE_API_PASS'),
+    ],
+
 ];

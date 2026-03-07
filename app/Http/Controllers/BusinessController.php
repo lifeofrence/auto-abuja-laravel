@@ -9,20 +9,37 @@ class BusinessController extends Controller
 {
     public function show($slug)
     {
-        $business = Business::with([
+        $query = Business::with([
             'category',
             'images',
+            'user',
             'products' => function ($q) {
-                $q->where('is_available', true);
+                if (!auth()->check() || auth()->user()->role !== 'admin') {
+                    $q->where('is_available', true)
+                        ->whereHas('user', function ($uq) {
+                            $uq->where('license_status', 'Valid');
+                        });
+                }
             }
-        ])->where('slug', $slug)->where('status', 'approved')->firstOrFail();
+        ])->where('slug', $slug);
+
+        // Admins can see everything, others are restricted to approved/valid
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            $query->where('status', 'approved')
+                ->whereHas('user', function ($q) {
+                    $q->where('license_status', 'Valid');
+                });
+        }
+
+        $business = $query->firstOrFail();
 
         // Update views count
         $business->increment('views_count');
 
         $gallery = $business->images;
         $products = $business->products;
-        $business_hours = json_decode($business->business_hours ?? '{}', true) ?: [];
+        $hours = $business->business_hours;
+        $business_hours = is_array($hours) ? $hours : (json_decode($hours ?? '{}', true) ?: []);
 
         return view('business-detail', compact('business', 'gallery', 'products', 'business_hours'));
     }

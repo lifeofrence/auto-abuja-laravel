@@ -8,6 +8,10 @@ class Business extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'business_hours' => 'array',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -22,7 +26,7 @@ class Business extends Model
     }
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class)->where('is_available', true);
     }
     public function images()
     {
@@ -35,24 +39,30 @@ class Business extends Model
 
     public function getImageUrlAttribute()
     {
-        if (!$this->cover_image) {
-            return asset('public/img/carousel-bg-1.jpg');
+        $path = ltrim($this->cover_image, '/');
+        if (!$path) {
+            return asset('img/carousel-bg-1.jpg');
         }
-        $path = $this->cover_image;
-        if (!str_starts_with($path, 'public/') && !str_contains($path, 'http')) {
-            $path = 'public/' . ltrim($path, '/');
+        if (str_starts_with($path, 'http')) {
+            return $path;
+        }
+        if (!str_starts_with($path, 'img/') && !str_starts_with($path, 'uploads/') && !str_starts_with($path, 'storage/')) {
+            $path = 'storage/' . $path;
         }
         return asset($path);
     }
 
     public function getLogoUrlAttribute()
     {
-        if (!$this->logo) {
-            return asset('public/img/default-logo.png');
+        $path = ltrim($this->logo, '/');
+        if (!$path) {
+            return asset('img/carousel-bg-1.jpg');
         }
-        $path = $this->logo;
-        if (!str_starts_with($path, 'public/') && !str_contains($path, 'http')) {
-            $path = 'public/' . ltrim($path, '/');
+        if (str_starts_with($path, 'http')) {
+            return $path;
+        }
+        if (!str_starts_with($path, 'img/') && !str_starts_with($path, 'uploads/') && !str_starts_with($path, 'storage/')) {
+            $path = 'storage/' . $path;
         }
         return asset($path);
     }

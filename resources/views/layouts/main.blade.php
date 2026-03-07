@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="{{ asset('public/img/favicon.ico') }}" rel="icon">
+    <link href="{{ asset('img/favicon.ico') }}" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,15 +22,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="{{ asset('public/lib/animate/animate.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('public/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('public/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{ asset('public/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="{{ asset('public/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 
 <body class="bg-light">
@@ -83,12 +83,17 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="{{ url('/') }}" class="nav-item nav-link">Home</a>
-                <a href="{{ url('/about') }}" class="nav-item nav-link">About Us</a>
-                <a href="{{ url('/team') }}" class="nav-item nav-link">Owner</a>
+            <div class="navbar-nav mx-auto p-4 p-lg-0">
+                <a href="{{ route('home') }}" class="nav-item nav-link">Home</a>
+                <a href="{{ route('listings') }}" class="nav-item nav-link">Businesses</a>
+                <a href="{{ route('about') }}" class="nav-item nav-link">About</a>
+                <a href="{{ route('service') }}" class="nav-item nav-link">Products/Services</a>
             </div>
-
+            @auth
+                <a href="{{ route('vendor.products.create') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
+                    POST PRODUCT / SERVICE<i class="fa fa-plus ms-3"></i>
+                </a>
+            @endauth
             @auth
                 <div class="nav-item dropdown d-none d-lg-block">
                     <a href="#" class="nav-link dropdown-toggle btn btn-primary py-4 px-lg-5 text-white"
@@ -97,8 +102,12 @@
                         {{ explode(' ', Auth::user()->name)[0] }}
                     </a>
                     <div class="dropdown-menu fade-up m-0 shadow-sm border-0">
+                        <a href="{{ route('vendor.profile') }}" class="dropdown-item"><i
+                                class="fa fa-user-circle me-2"></i>My Profile</a>
                         <a href="{{ url('/dashboard') }}" class="dropdown-item"><i
                                 class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                        <a href="{{ route('vendor.business.index') }}" class="dropdown-item"><i
+                                class="fa fa-building me-2"></i>Business Profile</a>
                         <a href="{{ url('/profile-edit') }}" class="dropdown-item"><i
                                 class="fa fa-user-edit me-2"></i>Profile</a>
                         <form method="POST" action="{{ route('logout') }}">
@@ -192,17 +201,17 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('public/lib/wow/wow.min.js') }}"></script>
-    <script src="{{ asset('public/lib/easing/easing.min.js') }}"></script>
-    <script src="{{ asset('public/lib/waypoints/waypoints.min.js') }}"></script>
-    <script src="{{ asset('public/lib/counterup/counterup.min.js') }}"></script>
-    <script src="{{ asset('public/lib/owlcarousel/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('public/lib/tempusdominus/js/moment.min.js') }}"></script>
-    <script src="{{ asset('public/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
-    <script src="{{ asset('public/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    <script src="{{ asset('lib/wow/wow.min.js') }}"></script>
+    <script src="{{ asset('lib/easing/easing.min.js') }}"></script>
+    <script src="{{ asset('lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ asset('lib/counterup/counterup.min.js') }}"></script>
+    <script src="{{ asset('lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('lib/tempusdominus/js/moment.min.js') }}"></script>
+    <script src="{{ asset('lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
     <!-- Template Javascript -->
-    <script src="{{ asset('public/js/main.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
     @stack('scripts')
 </body>
 

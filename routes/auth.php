@@ -7,15 +7,20 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Auth\VerifyLicenseController;
+use App\Http\Controllers\Auth\ActivationController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
+    Route::get('activate/{token}', [ActivationController::class, 'activate'])
+        ->name('activate');
+
+    Route::get('register', [VerifyLicenseController::class, 'show'])
         ->name('register');
 
-    Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::post('register', [VerifyLicenseController::class, 'verify'])
+        ->name('verify-license.post');
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');

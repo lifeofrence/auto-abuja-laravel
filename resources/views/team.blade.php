@@ -40,7 +40,7 @@
                     <div class="col-lg-4 col-md-6 wow fadeInUp owner-card" data-wow-delay="{{ 0.1 + ($index * 0.1) }}s">
                         <div class="card h-100 border-0 shadow-sm overflow-hidden">
                             <div class="position-relative">
-                                <img src="{{ asset($business->cover_image ?? 'img/default-business.jpg') }}" class="card-img-top" alt="{{ $business->user->name ?? $business->business_name }}"
+                                <img src="{{ $business->image_url }}" class="card-img-top" alt="{{ $business->user->name ?? $business->business_name }}"
                                     style="height: 250px; object-fit: cover;">
                                 @if($business->verified)
                                     <div class="position-absolute top-0 end-0 m-3">

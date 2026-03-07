@@ -15,8 +15,15 @@ class ListingController extends Controller
         $subcategorySlug = $request->input('sub');
         $search = $request->input('search');
 
-        $query = Business::with(['category', 'subcategory'])
-            ->where('status', 'approved');
+        $query = Business::with(['category', 'subcategory', 'user']);
+
+        // Admins can see everything, others are restricted to approved/valid
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            $query->where('status', 'approved')
+                ->whereHas('user', function ($q) {
+                    $q->where('license_status', 'Valid');
+                });
+        }
 
         if ($categorySlug) {
             $query->whereHas('category', function ($q) use ($categorySlug) {
