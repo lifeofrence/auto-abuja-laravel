@@ -136,6 +136,9 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'role' => 'required|in:user,vendor,admin,super_admin,moderator,support',
+            'status' => 'required|in:active,disabled,pending',
+            'phone' => 'nullable|string|max:20',
+            'vio_user_id' => 'nullable|string|max:255',
             'license_status' => 'nullable|string|in:Valid,Expired'
         ]);
 
@@ -143,6 +146,9 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'role' => $request->role,
+            'status' => $request->status,
+            'phone' => $request->phone,
+            'vio_user_id' => $request->vio_user_id,
             'license_status' => $request->license_status,
         ]);
 

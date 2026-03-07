@@ -32,6 +32,43 @@
                                 style="border-radius: 8px; border: 1px solid #eef2f6; padding: 10px 15px;">
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-muted small">Phone Number</label>
+                                <input type="text" name="phone" class="form-control" value="{{ $user->phone }}"
+                                    style="border-radius: 8px; border: 1px solid #eef2f6; padding: 10px 15px;">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-muted small">VIO User ID</label>
+                                <input type="text" name="vio_user_id" class="form-control" value="{{ $user->vio_user_id }}"
+                                    style="border-radius: 8px; border: 1px solid #eef2f6; padding: 10px 15px;">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-muted small">Account Status</label>
+                                <select name="status" class="form-select" required
+                                    style="border-radius: 8px; border: 1px solid #eef2f6; padding: 10px 15px;">
+                                    <option value="active" {{ $user->status == 'active' ? 'selected' : '' }}>Active</option>
+                                    <option value="disabled" {{ $user->status == 'disabled' ? 'selected' : '' }}>Disabled
+                                    </option>
+                                    <option value="pending" {{ $user->status == 'pending' ? 'selected' : '' }}>Pending
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-muted small">License Status</label>
+                                <select name="license_status" class="form-select"
+                                    style="border-radius: 8px; border: 1px solid #eef2f6; padding: 10px 15px;">
+                                    <option value="Valid" {{ $user->license_status == 'Valid' ? 'selected' : '' }}>Valid
+                                    </option>
+                                    <option value="Expired" {{ $user->license_status == 'Expired' ? 'selected' : '' }}>Expired
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="mb-4">
                             <label class="form-label text-muted small">System Role</label>
                             <select name="role" class="form-select" required
