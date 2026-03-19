@@ -6,7 +6,7 @@
         <div class="position-relative" style="height: 250px;">
             <div class="w-100 h-100 overflow-hidden">
                 @if($business->cover_image)
-                    <img src="{{ asset('storage/' . $business->cover_image) }}" class="w-100 h-100 object-fit-cover"
+                    <img src="{{ $business->image_url }}" class="w-100 h-100 object-fit-cover"
                         alt="Cover">
                 @else
                     <img src="{{ asset('img/carousel-bg-1.jpg') }}" class="w-100 h-100 object-fit-cover" alt="Default Cover">
@@ -18,7 +18,7 @@
                     <div class="me-4 mb-n5" style="z-index: 10;">
                         <div class="bg-white rounded-circle p-1 shadow-lg" style="width: 120px; height: 120px;">
                             @if($business->logo)
-                                <img src="{{ asset('storage/' . $business->logo) }}"
+                                <img src="{{ $business->logo_url }}"
                                     class="rounded-circle w-100 h-100 object-fit-cover" alt="Logo">
                             @else
                                 <div
@@ -134,7 +134,7 @@
                                 <div class="col-md-6">
                                     <div class="card border-0 shadow-sm rounded-4 overflow-hidden product-card h-100">
                                         <div class="position-relative" style="height: 150px;">
-                                            <img src="{{ asset('storage/' . $product->image) }}"
+                                            <img src="{{ $product->image_url }}"
                                                 class="w-100 h-100 object-fit-cover" alt="{{ $product->name }}">
                                             <div class="position-absolute bottom-0 start-0 p-2">
                                                 <span
@@ -187,7 +187,7 @@
                             @foreach($gallery as $img)
                                 <div class="col-4">
                                     <div class="rounded-3 overflow-hidden shadow-sm" style="height: 100px;">
-                                        <img src="{{ asset('storage/' . $img->image_path) }}" class="w-100 h-100 object-fit-cover"
+                                        <img src="{{ $img->image_url }}" class="w-100 h-100 object-fit-cover"
                                             alt="Gallery">
                                     </div>
                                 </div>

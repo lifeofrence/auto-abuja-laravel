@@ -50,8 +50,8 @@
                             <td style="padding-left:20px;">
                                 <div class="d-flex align-items-center gap-3">
                                     @if($biz->logo)
-                                        <img src="{{ asset('storage/' . $biz->logo) }}" alt="Logo"
-                                            style="width:36px;height:36px;object-fit:cover;border-radius:8px;flex-shrink:0;">
+                                        <img src="{{ $biz->logo_url }}" alt="Logo"
+                                            class="rounded-circle border border-secondary" style="width:36px;height:36px;object-fit:cover;border-radius:8px;flex-shrink:0;">
                                     @else
                                         <div class="biz-avatar">{{ strtoupper(substr($biz->business_name, 0, 1)) }}</div>
                                     @endif

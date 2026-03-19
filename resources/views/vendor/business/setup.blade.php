@@ -142,7 +142,7 @@
                     <div class="p-4 border border-dashed rounded-4 bg-light text-center">
                         <label class="form-label fw-bold d-block mb-3">Business Logo</label>
                         @if($business && $business->logo)
-                            <img src="{{ asset('storage/' . $business->logo) }}" alt="Logo"
+                            <img src="{{ $business->logo_url }}" alt="Logo"
                                 class="rounded-circle shadow-sm mb-3" style="width: 80px; height: 80px; object-fit: cover;">
                         @else
                             <div class="bg-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3 shadow-sm"
@@ -159,7 +159,7 @@
                     <div class="p-4 border border-dashed rounded-4 bg-light text-center">
                         <label class="form-label fw-bold d-block mb-3">Profile Banner</label>
                         @if($business && $business->cover_image)
-                            <img src="{{ asset('storage/' . $business->cover_image) }}" alt="Cover"
+                            <img src="{{ $business->image_url }}" alt="Cover"
                                 class="rounded shadow-sm mb-3 w-100" style="height: 80px; object-fit: cover;">
                         @else
                             <div class="bg-white rounded d-flex align-items-center justify-content-center mx-auto mb-3 shadow-sm w-100"

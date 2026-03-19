@@ -80,7 +80,7 @@
                     <div class="p-3 border border-dashed rounded-4 bg-light text-center">
                         <label class="form-label fw-bold d-block mb-3 small text-uppercase">Featured Image</label>
                         <div class="mb-3">
-                            <img src="{{ asset('storage/' . $product->image) }}" class="rounded shadow-sm" style="height: 100px; object-fit: cover;">
+                            <img src="{{ $product->image_url }}" class="rounded shadow-sm" style="height: 100px; object-fit: cover;">
                         </div>
                         <input type="file" name="image" id="image" class="form-control form-control-sm">
                         <small class="text-muted">Upload to replace current main image</small>
@@ -106,7 +106,7 @@
                             @foreach($product->images as $img)
                                 <div class="col-4 col-md-2">
                                     <div class="position-relative rounded-3 overflow-hidden shadow-sm" style="height: 80px;">
-                                        <img src="{{ asset('storage/' . $img->image_path) }}" class="w-100 h-100 object-fit-cover">
+                                        <img src="{{ $img->image_url }}" class="w-100 h-100 object-fit-cover">
                                         <button type="button" class="btn btn-danger btn-sm rounded-circle position-absolute top-0 end-0 m-1 p-0 px-1" 
                                             onclick="if(confirm('Delete this gallery photo?')) { document.getElementById('delete-img-{{ $img->id }}').submit(); }"
                                             style="width: 20px; height: 20px; font-size: 10px;">

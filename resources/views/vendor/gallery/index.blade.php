@@ -33,7 +33,7 @@
             @foreach($images as $img)
                 <div class="col-6 col-sm-4">
                     <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden position-relative gallery-card">
-                        <img src="{{ asset('storage/' . $img->image_path) }}" class="w-100 object-fit-cover"
+                        <img src="{{ $img->image_url }}" class="w-100 object-fit-cover"
                             style="height: 200px;">
                         <div class="position-absolute top-0 end-0 p-2">
                             <form action="{{ route('vendor.gallery.destroy', $img->id) }}" method="POST">
