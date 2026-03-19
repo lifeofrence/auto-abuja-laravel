@@ -73,7 +73,7 @@ class ProductController extends Controller
         $user = Auth::user();
         $business = $user->businesses()->first();
 
-        $imagePath = $request->file('image')->store('products', 'public');
+        $imagePath = $request->file('image')->store('uploads/products', 'public_uploads');
 
         $product = Product::create([
             'user_id' => $user->id,
@@ -90,7 +90,7 @@ class ProductController extends Controller
 
         if ($request->hasFile('additional_images')) {
             foreach ($request->file('additional_images') as $image) {
-                $path = $image->store('products/gallery', 'public');
+                $path = $image->store('uploads/products/gallery', 'public_uploads');
                 ProductImage::create([
                     'product_id' => $product->id,
                     'image_path' => $path,
@@ -143,7 +143,7 @@ class ProductController extends Controller
         ];
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('products', 'public');
+            $imagePath = $request->file('image')->store('uploads/products', 'public_uploads');
             $updateData['image'] = $imagePath;
         }
 
@@ -151,7 +151,7 @@ class ProductController extends Controller
 
         if ($request->hasFile('additional_images')) {
             foreach ($request->file('additional_images') as $image) {
-                $path = $image->store('products/gallery', 'public');
+                $path = $image->store('uploads/products/gallery', 'public_uploads');
                 ProductImage::create([
                     'product_id' => $product->id,
                     'image_path' => $path,

@@ -70,13 +70,13 @@ class BusinessController extends Controller
 
         // Handle Logo Upload
         if ($request->hasFile('logo')) {
-            $logoPath = $request->file('logo')->store('business/logos', 'public');
+            $logoPath = $request->file('logo')->store('uploads/business/logos', 'public_uploads');
             $businessData['logo'] = $logoPath;
         }
 
         // Handle Cover Image Upload
         if ($request->hasFile('cover_image')) {
-            $coverPath = $request->file('cover_image')->store('business/covers', 'public');
+            $coverPath = $request->file('cover_image')->store('uploads/business/covers', 'public_uploads');
             $businessData['cover_image'] = $coverPath;
         }
 

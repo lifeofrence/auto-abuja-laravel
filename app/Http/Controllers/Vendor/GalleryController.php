@@ -31,7 +31,7 @@ class GalleryController extends Controller
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $path = $image->store('business/gallery', 'public');
+                $path = $image->store('uploads/business/gallery', 'public_uploads');
                 BusinessImage::create([
                     'business_id' => $business->id,
                     'image_path' => $path,
