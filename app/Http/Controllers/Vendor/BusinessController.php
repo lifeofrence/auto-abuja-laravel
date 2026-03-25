@@ -35,9 +35,12 @@ class BusinessController extends Controller
 
     public function store(Request $request)
     {
+        $user = Auth::user();
+        $isExisting = $user->businesses()->exists();
+
         $request->validate([
             'business_name' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => $isExisting ? 'nullable|exists:categories,id' : 'required|exists:categories,id',
             'subcategory_id' => 'nullable|exists:subcategories,id',
             'address' => 'required|string',
             'phone' => 'required|string|max:20',
@@ -52,8 +55,11 @@ class BusinessController extends Controller
         ]);
 
         $user = Auth::user();
+        $existingBusiness = $user->businesses()->first();
+        $categoryId = $existingBusiness ? $existingBusiness->category_id : $request->category_id;
+
         $businessData = [
-            'category_id' => $request->category_id,
+            'category_id' => $categoryId,
             'subcategory_id' => $request->subcategory_id,
             'business_name' => $request->business_name,
             'slug' => Str::slug($request->business_name) . '-' . $user->id,

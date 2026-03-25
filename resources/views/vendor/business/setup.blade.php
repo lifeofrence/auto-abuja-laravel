@@ -35,7 +35,7 @@
                 <div class="col-md-6">
                     <div class="form-floating">
                         <select name="category_id" id="category_id"
-                            class="form-select @error('category_id') is-invalid @enderror" required>
+                            class="form-select @error('category_id') is-invalid @enderror" {{ $business ? 'disabled' : 'required' }}>
                             <option value="">Select Category</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}" {{ (old('category_id', $business->category_id ?? '') == $category->id) ? 'selected' : '' }}>

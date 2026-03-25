@@ -11,6 +11,15 @@
 
         <!-- Upload Form -->
         <div class="bg-light p-4 rounded-4 mb-5 border-2 border-dashed border-primary border-opacity-25 shadow-sm">
+            @if ($errors->any())
+                <div class="alert alert-danger mb-4" style="border-radius: 8px;">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ str_replace('images.', 'Image ', $error) }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <form action="{{ route('vendor.gallery.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row align-items-center g-3">

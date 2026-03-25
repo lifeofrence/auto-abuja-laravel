@@ -7,8 +7,11 @@
             <h4>Listings / Products</h4>
             <p class="mb-0">Oversee all marketplace listings across every vendor on the platform</p>
         </div>
-        <div>
-            <form action="{{ route('admin.products.index') }}" method="GET" class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-3">
+            <a href="{{ route('admin.products.create') }}" class="btn" style="background:var(--primary-color, #F68B1E); color:#fff; border-radius: 8px; font-weight: 500; padding: 9px 20px; box-shadow: 0 4px 10px rgba(246, 139, 30, 0.2);">
+                <i class="fa fa-plus me-1"></i> Post Product
+            </a>
+            <form action="{{ route('admin.products.index') }}" method="GET" class="d-flex align-items-center gap-2 m-0">
                 <div class="input-group"
                     style="background: #fff; border: 1px solid #eef2f6; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.02); min-width: 320px;">
                     <span class="input-group-text bg-transparent border-0 pe-1 text-muted">
@@ -79,6 +82,10 @@
                             </td>
                             <td class="text-end" style="padding-right:20px;">
                                 <div class="d-flex gap-2 justify-content-end align-items-center">
+                                    <a href="{{ route('admin.products.edit', $product->id) }}"
+                                        style="border:none;border-radius:8px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;background:#f3f0ff;color:#6b46c1;text-decoration:none;">
+                                        Edit
+                                    </a>
                                     <a href="{{ route('products.show', $product->slug) }}" target="_blank"
                                         style="border:none;border-radius:8px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;background:#f0f7ff;color:#3b82f6;text-decoration:none;">
                                         View

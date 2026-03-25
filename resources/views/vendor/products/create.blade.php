@@ -26,22 +26,13 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="form-floating">
-                        <select name="category_id" id="category_id"
-                            class="form-select @error('category_id') is-invalid @enderror" required>
-                            @if($category)
-                                <option value="{{ $category->id }}" selected>{{ $category->name }} (Your Business Category)
-                                </option>
-                            @else
-                                <option value="">No Category Found</option>
-                            @endif
-                        </select>
-                        <label for="category_id">Primary Category</label>
-                    </div>
-                </div>
+                @if($category)
+                    <input type="hidden" name="category_id" value="{{ $category->id }}">
+                @else
+                    <input type="hidden" name="category_id" value="">
+                @endif
 
-                <div class="col-md-6">
+                <div class="col-12">
                     <div class="form-floating">
                         <select name="subcategory_id" id="subcategory_id"
                             class="form-select @error('subcategory_id') is-invalid @enderror">
@@ -89,7 +80,7 @@
 
                 <div class="col-md-6">
                     <div class="p-3 border border-dashed rounded-4 bg-light">
-                        <label class="form-label fw-bold d-block mb-2 small text-uppercase">Gallery Images</label>
+                        <label class="form-label fw-bold d-block mb-2 small text-uppercase">Add More Images</label>
                         <input type="file" name="additional_images[]" id="additional_images" class="form-control" multiple
                             accept="image/*">
                         <small class="text-muted">Add more photos (Max 10)</small>

@@ -429,16 +429,16 @@
                 <div class="nav-section-title">Management</div>
                 <a href="{{ route('admin.users.index') }}"
                     class="sidebar-link {{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
-                    <i class="fa fa-users"></i> Vendors & Users
+                    <i class="fa fa-users"></i> Users
                 </a>
             @endif
 
             <div class="nav-section-title">Operations</div>
             <a href="{{ route('admin.businesses.index') }}"
                 class="sidebar-link {{ request()->routeIs('admin.businesses.index') ? 'active' : '' }}">
-                <i class="fa fa-building"></i> Business Approvals
+                <i class="fa fa-building"></i> Business / Vendor
             </a>
-            
+
             <a href="{{ route('admin.products.index') }}"
                 class="sidebar-link {{ request()->routeIs('admin.products.index') ? 'active' : '' }}">
                 <i class="fa fa-shopping-bag"></i> Listings / Products
@@ -453,12 +453,12 @@
 
             <div class="nav-section-title">Security</div>
             @if(in_array(auth()->user()->role, ['super_admin', 'admin']))
-                <a href="{{ route('admin.users.create') }}" 
+                <a href="{{ route('admin.users.create') }}"
                     class="sidebar-link {{ request()->routeIs('admin.users.create') ? 'active' : '' }}">
                     <i class="fa fa-user-plus"></i> Add New User
                 </a>
             @endif
-            
+
             <a href="{{ route('home') }}" class="sidebar-link">
                 <i class="fa fa-external-link-alt"></i> Return to Site
             </a>

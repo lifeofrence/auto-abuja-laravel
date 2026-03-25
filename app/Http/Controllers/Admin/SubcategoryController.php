@@ -50,4 +50,25 @@ class SubcategoryController extends Controller
 
         return back()->with('status', "Subcategory '{$subcategory->name}' status updated.");
     }
+
+    public function update(Request $request, $id)
+    {
+        Gate::authorize('manage-categories');
+        $subcategory = Subcategory::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'badge_color' => 'nullable|string|max:50',
+        ]);
+
+        $subcategory->update([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+            'description' => $request->description,
+            'badge_color' => $request->badge_color ?? 'primary',
+        ]);
+
+        return back()->with('status', "Subcategory '{$request->name}' updated successfully!");
+    }
 }

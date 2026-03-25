@@ -86,17 +86,24 @@ Route::middleware('auth')->group(function () {
 
         // Product Moderation
         Route::get('/products', [App\Http\Controllers\Admin\ProductController::class, 'index'])->name('products.index');
+        Route::get('/products/create', [App\Http\Controllers\Admin\ProductController::class, 'create'])->name('products.create');
+        Route::post('/products', [App\Http\Controllers\Admin\ProductController::class, 'store'])->name('products.store');
+        Route::get('/products/{id}/edit', [App\Http\Controllers\Admin\ProductController::class, 'edit'])->name('products.edit');
+        Route::put('/products/{id}', [App\Http\Controllers\Admin\ProductController::class, 'update'])->name('products.update');
+        Route::delete('/products/image/{id}', [App\Http\Controllers\Admin\ProductController::class, 'deleteImage'])->name('products.delete_image');
         Route::post('/products/{id}/toggle', [App\Http\Controllers\Admin\ProductController::class, 'toggleAvailability'])->name('products.toggle');
         Route::delete('/products/{id}', [App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('products.destroy');
 
         // Category Management
         Route::get('/categories', [App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('categories.index');
         Route::post('/categories', [App\Http\Controllers\Admin\CategoryController::class, 'store'])->name('categories.store');
+        Route::put('/categories/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('categories.update');
         Route::post('/categories/{id}/toggle', [App\Http\Controllers\Admin\CategoryController::class, 'toggle'])->name('categories.toggle');
 
         // Subcategories Management
         Route::get('/categories/{category}/subcategories', [App\Http\Controllers\Admin\SubcategoryController::class, 'index'])->name('categories.subcategories');
         Route::post('/categories/{category}/subcategories', [App\Http\Controllers\Admin\SubcategoryController::class, 'store'])->name('categories.subcategories.store');
+        Route::put('/subcategories/{id}', [App\Http\Controllers\Admin\SubcategoryController::class, 'update'])->name('subcategories.update');
         Route::post('/subcategories/{id}/toggle', [App\Http\Controllers\Admin\SubcategoryController::class, 'toggle'])->name('subcategories.toggle');
     });
 });

@@ -61,13 +61,59 @@
                                         @endif
                                     </td>
                                     <td class="text-end" style="padding-right:20px;">
-                                        <form action="{{ route('admin.subcategories.toggle', $subcat->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit"
-                                                style="border:none;border-radius:8px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;background:{{ $subcat->is_active ? '#fff2f2' : '#edfaf1' }};color:{{ $subcat->is_active ? '#ff6b6b' : '#34c76f' }};">
-                                                {{ $subcat->is_active ? 'Disable' : 'Enable' }}
+                                        <div class="d-flex align-items-center justify-content-end gap-2">
+                                            <button type="button" data-bs-toggle="modal" data-bs-target="#editSubCatModal{{ $subcat->id }}" style="border:none;border-radius:8px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;background:#eefaff;color:#0ea5e9;">
+                                                Edit
                                             </button>
-                                        </form>
+                                            <form action="{{ route('admin.subcategories.toggle', $subcat->id) }}" method="POST" class="m-0">
+                                                @csrf
+                                                <button type="submit"
+                                                    style="border:none;border-radius:8px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;background:{{ $subcat->is_active ? '#fff2f2' : '#edfaf1' }};color:{{ $subcat->is_active ? '#ff6b6b' : '#34c76f' }};">
+                                                    {{ $subcat->is_active ? 'Disable' : 'Enable' }}
+                                                </button>
+                                            </form>
+                                        </div>
+
+                                        <!-- Edit Modal -->
+                                        <div class="modal fade text-start" id="editSubCatModal{{ $subcat->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content border-0 shadow" style="border-radius:12px;">
+                                                    <div class="modal-header border-0 pb-0">
+                                                        <h6 class="modal-title fw-bold">Edit Subcategory</h6>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form action="{{ route('admin.subcategories.update', $subcat->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-body p-4 pt-3">
+                                                            <div class="mb-3">
+                                                                <label style="font-size:0.8rem;font-weight:600;color:#555;display:block;margin-bottom:6px;">Subcategory Name</label>
+                                                                <input type="text" name="name" value="{{ $subcat->name }}" class="form-control" required style="border-radius:8px;padding:10px 14px;font-size:0.9rem;">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label style="font-size:0.8rem;font-weight:600;color:#555;display:block;margin-bottom:6px;">Color Badge</label>
+                                                                <select name="badge_color" class="form-select" style="border-radius:8px;padding:10px 14px;font-size:0.9rem;">
+                                                                    <option value="primary" {{ $subcat->badge_color == 'primary' ? 'selected' : '' }}>Blue (Primary)</option>
+                                                                    <option value="success" {{ $subcat->badge_color == 'success' ? 'selected' : '' }}>Green (Success)</option>
+                                                                    <option value="warning" {{ $subcat->badge_color == 'warning' ? 'selected' : '' }}>Yellow (Warning)</option>
+                                                                    <option value="danger" {{ $subcat->badge_color == 'danger' ? 'selected' : '' }}>Red (Danger)</option>
+                                                                    <option value="info" {{ $subcat->badge_color == 'info' ? 'selected' : '' }}>Cyan (Info)</option>
+                                                                    <option value="dark" {{ $subcat->badge_color == 'dark' ? 'selected' : '' }}>Dark</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label style="font-size:0.8rem;font-weight:600;color:#555;display:block;margin-bottom:6px;">Description</label>
+                                                                <textarea name="description" class="form-control" rows="3" style="border-radius:8px;padding:10px 14px;font-size:0.9rem;">{{ $subcat->description }}</textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer border-0 pt-0">
+                                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal" style="border-radius:8px;font-weight:600;font-size:0.85rem;">Cancel</button>
+                                                            <button type="submit" class="btn" style="background:#F68B1E;color:#fff;border-radius:8px;font-weight:600;font-size:0.85rem;">Save Changes</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty

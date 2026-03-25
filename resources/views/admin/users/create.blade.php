@@ -45,6 +45,20 @@
 
                         <div class="col-md-6">
                             <label class="form-label fw-bold small text-uppercase"
+                                style="letter-spacing:1px; color:#94a3b8;">Phone Number</label>
+                            <div class="input-with-icon position-relative">
+                                <i class="fa fa-phone position-absolute top-50 translate-middle-y ms-3 text-muted"></i>
+                                <input type="text" name="phone"
+                                    class="form-control py-3 ps-5 border-0 bg-light rounded-3 @error('phone') is-invalid @enderror"
+                                    placeholder="+234..." value="{{ old('phone') }}">
+                                @error('phone')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold small text-uppercase"
                                 style="letter-spacing:1px; color:#94a3b8;">System Role</label>
                             <div class="input-with-icon position-relative">
                                 <i

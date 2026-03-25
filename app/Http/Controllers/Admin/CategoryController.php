@@ -43,4 +43,23 @@ class CategoryController extends Controller
 
         return back()->with('status', "Category '{$category->name}' status updated.");
     }
+
+    public function update(Request $request, $id)
+    {
+        Gate::authorize('manage-categories');
+        $category = Category::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
+            'icon' => 'nullable|string'
+        ]);
+
+        $category->update([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+            'icon' => $request->icon ?? 'fa-tag'
+        ]);
+
+        return back()->with('status', 'Category updated successfully!');
+    }
 }

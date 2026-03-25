@@ -57,6 +57,9 @@
                                     </td>
                                     <td class="text-end" style="padding-right:20px;">
                                         <div class="d-flex align-items-center justify-content-end gap-2">
+                                            <button type="button" data-bs-toggle="modal" data-bs-target="#editCatModal{{ $cat->id }}" style="border:none;border-radius:8px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;background:#eefaff;color:#0ea5e9;">
+                                                Edit
+                                            </button>
                                             <a href="{{ route('admin.categories.subcategories', $cat->id) }}"
                                                 style="border:none;border-radius:8px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;text-decoration:none;background:#f4f6f9;color:#555;">
                                                 Subcategories
@@ -69,6 +72,36 @@
                                                     {{ $cat->is_active ? 'Disable' : 'Enable' }}
                                                 </button>
                                             </form>
+                                        </div>
+
+                                        <!-- Edit Modal -->
+                                        <div class="modal fade text-start" id="editCatModal{{ $cat->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content border-0 shadow" style="border-radius:12px;">
+                                                    <div class="modal-header border-0 pb-0">
+                                                        <h6 class="modal-title fw-bold">Edit Category</h6>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form action="{{ route('admin.categories.update', $cat->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-body p-4 pt-3">
+                                                            <div class="mb-3">
+                                                                <label style="font-size:0.8rem;font-weight:600;color:#555;display:block;margin-bottom:6px;">Category Name</label>
+                                                                <input type="text" name="name" value="{{ $cat->name }}" class="form-control" required style="border-radius:8px;padding:10px 14px;font-size:0.9rem;">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label style="font-size:0.8rem;font-weight:600;color:#555;display:block;margin-bottom:6px;">FontAwesome Icon</label>
+                                                                <input type="text" name="icon" value="{{ $cat->icon }}" class="form-control" style="border-radius:8px;padding:10px 14px;font-size:0.9rem;">
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer border-0 pt-0">
+                                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal" style="border-radius:8px;font-weight:600;font-size:0.85rem;">Cancel</button>
+                                                            <button type="submit" class="btn" style="background:#F68B1E;color:#fff;border-radius:8px;font-weight:600;font-size:0.85rem;">Save Changes</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
