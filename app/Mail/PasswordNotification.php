@@ -19,7 +19,7 @@ class PasswordNotification extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($password, $activationUrl)
+    public function __construct($password, $activationUrl = null)
     {
         $this->password = $password;
         $this->activationUrl = $activationUrl;

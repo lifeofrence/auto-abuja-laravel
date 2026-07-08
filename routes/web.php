@@ -83,6 +83,7 @@ Route::middleware('auth')->group(function () {
         Route::patch('/users/{id}/role', [App\Http\Controllers\Admin\UserController::class, 'updateRole'])->name('users.update_role');
         Route::delete('/users/{id}', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
         Route::post('/users/{id}/reset-password', [App\Http\Controllers\Admin\UserController::class, 'resetPassword'])->name('users.reset_password');
+        Route::post('/users/{id}/send-credentials', [App\Http\Controllers\Admin\UserController::class, 'sendCredentials'])->name('users.send_credentials');
 
         // Product Moderation
         Route::get('/products', [App\Http\Controllers\Admin\ProductController::class, 'index'])->name('products.index');

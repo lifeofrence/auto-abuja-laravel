@@ -88,6 +88,14 @@
                                     <a href="{{ route('admin.users.edit', $user->id) }}" class="btn" style="border:1px solid #eef2f6; background:#fff; color:#555; border-radius:8px; padding:5px 10px; font-size:0.78rem;">
                                         <i class="fa fa-edit me-1"></i>Edit
                                     </a>
+                                    <form action="{{ route('admin.users.send_credentials', $user->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button type="submit"
+                                            onclick="return confirm('Reset password and send credentials to this user?')"
+                                            style="border:1px solid #eef2f6; background:#fff8ec; color:#F68B1E; border-radius:8px; padding:5px 10px; font-size:0.78rem; cursor:pointer;">
+                                            <i class="fa fa-envelope me-1"></i>Send Credentials
+                                        </button>
+                                    </form>
                                     @if($user->id !== auth()->id())
                                         <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline">
                                             @csrf @method('DELETE')

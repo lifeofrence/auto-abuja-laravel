@@ -169,6 +169,24 @@ class UserController extends Controller
         return back()->with('status', "User '{$user->name}' role updated to {$request->role}.");
     }
 
+    public function sendCredentials($id)
+    {
+        Gate::authorize('manage-users');
+        $user = User::findOrFail($id);
+
+        $password = \Illuminate\Support\Str::random(8);
+
+        $user->update([
+            'password' => \Illuminate\Support\Facades\Hash::make($password),
+        ]);
+
+        \Illuminate\Support\Facades\Mail::to($user->email)->send(
+            new \App\Mail\PasswordNotification($password, null)
+        );
+
+        return back()->with('status', "Login credentials sent to '{$user->name}' ({$user->email}).");
+    }
+
     public function resetPassword($id)
     {
         Gate::authorize('manage-users');

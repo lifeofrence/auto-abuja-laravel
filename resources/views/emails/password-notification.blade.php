@@ -11,9 +11,11 @@ To get started and access your dashboard, please use the secure credentials prov
 **Default Password:** {{ $password }}
 </x-mail::panel>
 
+@if($activationUrl)
 <x-mail::button :url="$activationUrl">
 Activate Account & Continue
 </x-mail::button>
+@endif
 
 ### Important Security Notice
 
